@@ -5,7 +5,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Datos en memoria (luego los cambias por una base de datos)
+// Datos en memoria
 let tareas = [
   { id: 1, titulo: "Aprender React", completada: false },
   { id: 2, titulo: "Conectar con Node.js", completada: false },
@@ -36,12 +36,6 @@ app.put("/api/tareas/:id", (req, res) => {
   res.json(tarea);
 });
 
-// DELETE - Eliminar TODAS las tareas completadas (RETO 2)
-app.delete("/api/tareas/completadas", (req, res) => {
-  tareas = tareas.filter((t) => !t.completada);
-  res.json({ message: "Tareas completadas eliminadas" });
-});
-
 // DELETE - Eliminar una tarea por ID
 app.delete("/api/tareas/:id", (req, res) => {
   const existe = tareas.some((t) => t.id === Number(req.params.id));
@@ -52,5 +46,5 @@ app.delete("/api/tareas/:id", (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`API corriendo en puerto ${PORT}`);
+  console.log(`API corriendo en el puerto ${PORT}`);
 });
