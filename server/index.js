@@ -36,7 +36,13 @@ app.put("/api/tareas/:id", (req, res) => {
   res.json(tarea);
 });
 
-// DELETE - Eliminar una tarea
+// DELETE - Eliminar TODAS las tareas completadas (RETO 2)
+app.delete("/api/tareas/completadas", (req, res) => {
+  tareas = tareas.filter((t) => !t.completada);
+  res.json({ message: "Tareas completadas eliminadas" });
+});
+
+// DELETE - Eliminar una tarea por ID
 app.delete("/api/tareas/:id", (req, res) => {
   const existe = tareas.some((t) => t.id === Number(req.params.id));
   if (!existe) return res.status(404).json({ error: "Tarea no encontrada" });
@@ -44,6 +50,7 @@ app.delete("/api/tareas/:id", (req, res) => {
   res.status(204).send();
 });
 
-app.listen(3001, () => {
-  console.log("API corriendo en http://localhost:3001");
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`API corriendo en puerto ${PORT}`);
 });
