@@ -52,12 +52,22 @@ export default function App() {
     setTareas(tareas.map((t) => (t.id === id ? actualizada : t)));
   }
 
+  // CÁLCULO DEL RETO 1
+  const completadas = tareas.filter((t) => t.completada).length;
+  const total = tareas.length;
+
   if (cargando) return <p className="estado">Cargando...</p>;
   if (error) return <p className="estado">❌ {error}</p>;
 
   return (
     <main className="contenedor">
       <h1>✅ Mis tareas</h1>
+      
+      {/* TEXTO DEL CONTADOR */}
+      <p className="contador" style={{ marginBottom: "1rem", opacity: 0.8 }}>
+        {completadas} de {total} tareas completadas
+      </p>
+
       <Formulario onAgregar={agregarTarea} />
       <ListaTareas
         tareas={tareas}
