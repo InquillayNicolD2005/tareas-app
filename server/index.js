@@ -5,19 +5,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Datos en memoria
 let tareas = [
   { id: 1, titulo: "Aprender React", completada: false },
   { id: 2, titulo: "Conectar con Node.js", completada: false },
 ];
 let siguienteId = 3;
 
-// GET - Obtener todas las tareas
 app.get("/api/tareas", (req, res) => {
   res.json(tareas);
 });
 
-// POST - Crear una tarea
 app.post("/api/tareas", (req, res) => {
   const { titulo } = req.body;
   if (!titulo || !titulo.trim()) {
@@ -28,15 +25,21 @@ app.post("/api/tareas", (req, res) => {
   res.status(201).json(nueva);
 });
 
-// PUT - Marcar/desmarcar como completada
+// PUT - Actualizar completada o titulo
 app.put("/api/tareas/:id", (req, res) => {
   const tarea = tareas.find((t) => t.id === Number(req.params.id));
   if (!tarea) return res.status(404).json({ error: "Tarea no encontrada" });
-  tarea.completada = req.body.completada ?? !tarea.completada;
+
+  if (req.body.completada !== undefined) {
+    tarea.completada = req.body.completada;
+  }
+  if (req.body.titulo !== undefined) {
+    tarea.titulo = req.body.titulo;
+  }
+
   res.json(tarea);
 });
 
-// DELETE - Eliminar una tarea por ID
 app.delete("/api/tareas/:id", (req, res) => {
   const existe = tareas.some((t) => t.id === Number(req.params.id));
   if (!existe) return res.status(404).json({ error: "Tarea no encontrada" });

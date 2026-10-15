@@ -9,7 +9,6 @@ export default function App() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
-  // Cargar tareas al montar el componente
   useEffect(() => {
     cargarTareas();
   }, []);
@@ -41,7 +40,6 @@ export default function App() {
     setTareas(tareas.filter((t) => t.id !== id));
   }
 
-  // RETO 2: Varios DELETE seguidos
   async function eliminarCompletadas() {
     const completadasList = tareas.filter((t) => t.completada);
     for (const tarea of completadasList) {
@@ -61,7 +59,17 @@ export default function App() {
     setTareas(tareas.map((t) => (t.id === id ? actualizada : t)));
   }
 
-  // RETO 1: Contador
+  // RETO 3: Editar título mediante PUT
+  async function editarTarea(id, nuevoTitulo) {
+    const res = await fetch(`${API}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ titulo: nuevoTitulo }),
+    });
+    const actualizada = await res.json();
+    setTareas(tareas.map((t) => (t.id === id ? actualizada : t)));
+  }
+
   const completadas = tareas.filter((t) => t.completada).length;
   const total = tareas.length;
 
@@ -72,7 +80,6 @@ export default function App() {
     <main className="contenedor">
       <h1>✅ Mis tareas</h1>
 
-      {/* RETO 1: Mostrar contador */}
       <p className="contador" style={{ marginBottom: "1rem", opacity: 0.8 }}>
         {completadas} de {total} tareas completadas
       </p>
@@ -83,9 +90,9 @@ export default function App() {
         tareas={tareas}
         onEliminar={eliminarTarea}
         onToggle={toggleTarea}
+        onEditar={editarTarea}
       />
 
-      {/* RETO 2: Botón para eliminar completadas */}
       {completadas > 0 && (
         <button
           onClick={eliminarCompletadas}
@@ -101,7 +108,7 @@ export default function App() {
             width: "100%",
           }}
         >
-          Eliminar tareas RETO 2
+          🗑️ Eliminar completadas
         </button>
       )}
     </main>
