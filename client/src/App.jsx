@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Formulario from "./components/Formulario.jsx";
 import ListaTareas from "./components/ListaTareas.jsx";
 
-const API = "http://localhost:3001/api/tareas";
+const API = "https://tareas-app-5vu4.onrender.com";
 
 export default function App() {
   const [tareas, setTareas] = useState([]);
