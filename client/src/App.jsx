@@ -101,7 +101,7 @@ export default function App() {
             width: "100%",
           }}
         >
-          🗑️ Eliminar completadas
+          Eliminar tareas RETO 2
         </button>
       )}
     </main>
